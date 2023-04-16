@@ -14,7 +14,7 @@ import { useState } from 'react';
 export default function OtpChakra({GetOtp}) {
 
     const [otp,setOtp]=useState('')
-    console.log(otp)
+    
 const HandleOtp=(e)=>{
     setOtp(e)
 }

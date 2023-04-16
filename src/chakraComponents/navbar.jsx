@@ -7,6 +7,7 @@ import {
     Stack,
     Collapse,
     Icon,
+    Input,
     
     Popover,
     PopoverTrigger,
@@ -86,12 +87,13 @@ dispatch(Logout())
               <DesktopNav />
             </Flex>
           </Flex>
-  
+         
           <Stack
             flex={{ base: 1, md: 0 }}
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
+           
            {!Auth?
             <Link to='/login'>
             <Button
@@ -138,6 +140,7 @@ dispatch(Logout())
         
         
         }
+        
             
           </Stack>
         </Flex>
@@ -172,6 +175,7 @@ dispatch(Logout())
                   }}>
                   {navItem.label}
                 </Link>
+                
               </PopoverTrigger>
   
               {navItem.children && (

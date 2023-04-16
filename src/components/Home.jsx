@@ -1,13 +1,17 @@
 
 import { useCookies } from "react-cookie"
 
-import Card from "../chakraComponents/card"
 
-import { Box,  Heading, SimpleGrid,  } from "@chakra-ui/react"
+
+import {   Button,  Flex,  Heading, Input, Select,  } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import DispData from "../redux/actions/HomeAction"
 import {useDispatch,useSelector} from 'react-redux'
 import { useEffect } from "react"
+import { HandleFilter, HandleSort } from "../redux/actions/filter"
+import AllDisplay from "./AllDisplay"
+import FilterDisplay from "./Filter"
+import SortDisplay from "./Sort"
 
 
 
@@ -15,18 +19,19 @@ import { useEffect } from "react"
 
 
 const Home=()=>{
-const {LoginReducer}=useSelector(store=>store)
+const {LoginReducer,}=useSelector(store=>store)
 const Auth=LoginReducer.Auth
 
 const [Cookies]=useCookies(['Token'])
 
 
+const {FilterReducer}=useSelector(store=>store)
+
+
 
 
 const dispatch=useDispatch()
-const {HomeReducer}=useSelector(store=>store)
-const Data=HomeReducer.Data
-console.log(Data,'redux')
+
 useEffect(()=>{
 
    dispatch(DispData(Cookies))
@@ -45,32 +50,65 @@ useEffect(()=>{
 if(Auth){
     return(
         <>
+<Flex
+justifyContent={'space-between'}
+w={'full'}
+border={'0px solid red'}
+>
+<Flex >
+<Input
+h={{base:"30px"}}
+
+placeholder="search"/>
+<Button
+h={{base:"30px"}}
+>Find</Button>
+
+</Flex>
+<Select
+onChange={(e)=>dispatch(HandleFilter(Cookies,e))}
+variant={"filled"}
+h={'30px'}
+w={{md:"30%"}}
+>
+<option >All</option>
+<option value={'Active'}>Active</option>
+<option value={'Draft'}>Draft</option>
+<option value={'Accepted'}>Accepted</option>
+<option value={'Archived'}>Archived</option>
+</Select>
+
+
+
+
+
+<Select
+onChange={(e)=>dispatch(HandleSort(Cookies,e))}
+variant={"filled"}
+h={'30px'}
+w={{md:"30%"}}
+>
+
+<option value={'Ascending'}>Ascending</option>
+<option value={'Descending'}>Descending</option>
+
+</Select>
+
+</Flex>
+
+   
+{FilterReducer.filter.length===0 
+    && FilterReducer.sort.length===0?
+    <AllDisplay/>
+    :FilterReducer.sort.length===0?<FilterDisplay/>:
+    FilterReducer.filter.length===0?<SortDisplay/>:null
+    
+}
+
+
+
         
-        <SimpleGrid 
-        columns={{sm:1,md:2}}
-        spacingX={'50px'}
-        spacingY={'20px'}
         
-        
-        >
-        {Data?.map((el)=>
-         <Box key={el.id}>
-         <Card
- firstName={el.firstName}
- lastName={el.lastName}
- phone={el.phone}
- email={el.email}
- createdAt={el.createdAt}
- />
- 
- 
-         
-         
-         </Box>
-         )}
-        
-        
-        </SimpleGrid >
     
         
         

@@ -15,7 +15,7 @@ const Login=()=>{
 const {LoginReducer}=useSelector(store=>store)
 const Token=LoginReducer.Token
 const otp=LoginReducer.otp
-console.log(otp,'reduxlogin')
+
 
     const navigate=useNavigate()
 
@@ -60,12 +60,12 @@ console.log(otp,'reduxlogin')
 const GetOtp=async(Otpvalue)=>{
     
     
-    console.log('click')
+    
     
 
          
             dispatch(LoginToken(Otpvalue,Email))
-           console.log(Token,'kkk')
+           
 
             
          

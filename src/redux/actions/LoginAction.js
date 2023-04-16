@@ -5,7 +5,9 @@
 export const LoginOtp=(email)=>async(dispatch)=>{
 
 
-    const Value={ query:`
+    try{
+
+        const Value={ query:`
     mutation{
         generateOTP(input:{email:"${email}"})
       }
@@ -19,12 +21,13 @@ export const LoginOtp=(email)=>async(dispatch)=>{
             )
         })
         const res=await data.json()
-        console.log(res)
+        
         dispatch({type:"LoginOtp",payload:res.data.generateOTP})
     
         const msg='Your Otp is '+res.data.generateOTP
         
         alert(msg)
+    }catch(err){console.log(err)}
 
     
 }
@@ -34,6 +37,8 @@ export const LoginOtp=(email)=>async(dispatch)=>{
 export const LoginToken=(Otpvalue,Email)=>async(dispatch)=>{
         
     
+      try{
+
         const Value={
             query:`
             mutation{
@@ -50,7 +55,7 @@ export const LoginToken=(Otpvalue,Email)=>async(dispatch)=>{
             body:JSON.stringify(Value)
         })
         const res=await data.json()
-        console.log(res,'otppp')
+        
     
         if(res.data!=null){
             const Token=res.data.login.sessionToken
@@ -71,6 +76,7 @@ export const LoginToken=(Otpvalue,Email)=>async(dispatch)=>{
         else {dispatch({type:'undefined',payload:null})
         alert("Invalid OTP")
         }
+      }catch(err){console.log(err)}
     
     
     
