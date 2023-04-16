@@ -1,51 +1,36 @@
 
 import { useCookies } from "react-cookie"
-import { useContext, useEffect } from "react"
-import { Context } from "../contextapi/User"
+
 import Card from "../chakraComponents/card"
-import { useState } from "react"
-import { Box, Grid, Heading, SimpleGrid, grid } from "@chakra-ui/react"
+
+import { Box,  Heading, SimpleGrid,  } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
+import DispData from "../redux/actions/HomeAction"
+import {useDispatch,useSelector} from 'react-redux'
+import { useEffect } from "react"
+
+
+
+
+
+
 const Home=()=>{
-const {Auth}=useContext(Context)
-console.log(Auth)
-const [Cookies,setCookies]=useCookies(['Token'])
+const {LoginReducer}=useSelector(store=>store)
+const Auth=LoginReducer.Auth
+
+const [Cookies]=useCookies(['Token'])
 
 
-const [Data,setData]=useState()
-const UserDetails=async()=>{
-    const data=await fetch(`http://172.232.70.228:8080/api/gql/query`,{
-        method:"POST",
-        headers:{'Content-Type': 'application/json',
-        "Authorization":Cookies.Token},
-        body:JSON.stringify({
-            query:`query {
-                users(search:{limit:20}){users{
-                  id
-                  firstName
-                  lastName
-                  email
-                  phone
-                  createdAt
-                  
-                  
-                
-                }}
-                
-              }`
 
-        })
-    })
-    const res=await data.json()
-    const wholeData=res.data.users.users
-    if(wholeData){setData(wholeData)}
-    console.log(wholeData)
-}
 
+const dispatch=useDispatch()
+const {HomeReducer}=useSelector(store=>store)
+const Data=HomeReducer.Data
+console.log(Data,'redux')
 useEffect(()=>{
 
-   
-        UserDetails()
+   dispatch(DispData(Cookies))
+       
     
     
 

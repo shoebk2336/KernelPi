@@ -6,11 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie'
-import ContextProvider from './contextapi/User';
 
+import {Provider} from 'react-redux'
+import store from './redux/store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ContextProvider>
+<Provider store={store}>
+  
   <CookiesProvider> 
   <BrowserRouter>
   <ChakraProvider>
@@ -20,7 +22,8 @@ root.render(
     </ChakraProvider>
     </BrowserRouter>
     </CookiesProvider>
-    </ContextProvider>
+    
+    </Provider>
    
    
 );

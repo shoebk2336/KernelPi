@@ -23,20 +23,24 @@ import {
     ChevronRightIcon,
   } from '@chakra-ui/icons';
   import { Link } from 'react-router-dom';
-  import { useContext } from 'react';
-  import { Context } from '../contextapi/User';
+ 
   import { useCookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { Logout } from '../redux/actions/LoginAction';
   
   export default function NavbarChakra() {
 
 
+    const dispatch=useDispatch()
     const [Cookies,setCookies,remove]=useCookies(['Token'])
     const { isOpen, onToggle } = useDisclosure();
-const {Auth,setAuth}=useContext(Context)
 
-const Logout=()=>{
+const {LoginReducer}=useSelector(store=>store)
+const Auth=LoginReducer.Auth
 
-    setAuth(false)
+const Signout=()=>{
+dispatch(Logout())
+    
     remove(['Token'])
 }
 
@@ -112,7 +116,7 @@ const Logout=()=>{
             
             </Link>:
             <Button
-            onClick={Logout}
+            onClick={Signout}
             as={'a'}
             display={{ base: 'inline-flex', md: 'inline-flex' }}
             
